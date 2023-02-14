@@ -1,4 +1,60 @@
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import { Ref } from 'vue'
+import { H3Error } from 'h3'
+
+const isLogin = useState('isLogin')
+const token = useCookie('token')
+const router = useRouter()
+
+const email = ref<string>('')
+const password = ref<string>('')
+
+const inputValidation = () => {
+  let error: boolean = false
+
+  if (!email.value) {
+    alert('Email cannot be empty')
+    error = true
+  }
+  if (!password.value) {
+    alert('Password cannot be empty')
+    error = true
+  }
+
+  return error
+}
+
+const signIn = async () => {
+  const errInput = inputValidation()
+  if (errInput) return
+
+  interface IDataLogin {
+    email: string
+    password: string
+  }
+  interface IResponse {
+    data: Ref<string | null>
+    error: Ref<H3Error | null>
+  }
+  const dataLogin: IDataLogin = {
+    email: email.value,
+    password: password.value,
+  }
+  const { data, error }: IResponse = await useLazyFetch('/api/sign_in', {
+    method: 'post',
+    body: dataLogin,
+  })
+
+  if (data.value) {
+    token.value = data.value
+    isLogin.value = true
+    router.push({ path: '/' })
+  }
+  if (error.value) {
+    alert(error.value.data.message)
+  }
+}
+</script>
 
 <template>
   <v-container>
@@ -12,11 +68,18 @@
             <v-container fluid>
               <v-row>
                 <v-col cols="=12">
-                  <v-text-field label="Email" variant="outlined" hide-details />
+                  <v-text-field
+                    v-model="email"
+                    label="Email"
+                    variant="outlined"
+                    hide-details
+                  />
                 </v-col>
                 <v-col cols="12">
                   <v-text-field
+                    v-model="password"
                     label="Password"
+                    type="password"
                     variant="outlined"
                     hide-details
                   />
@@ -43,7 +106,7 @@
                   <v-btn to="/sign_up" color="warning" block>Sign Up</v-btn>
                 </v-col>
                 <v-col col="6">
-                  <v-btn color="primary" block>Sign In</v-btn>
+                  <v-btn color="primary" block @click="signIn">Sign In</v-btn>
                 </v-col>
               </v-row>
             </v-container>

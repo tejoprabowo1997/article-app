@@ -63,13 +63,13 @@ const createUser = async () => {
     password: password.value,
   }
 
-  const { data, error }: IResponse = await useFetch('/api/sign_up', {
+  const { data, error }: IResponse = await useLazyFetch('/api/sign_up', {
     method: 'post',
     body: dataCreateUser,
   })
 
   if (error.value) {
-    alert(error.value.statusMessage)
+    alert(error.value.data.message)
   }
 
   if (data.value) {

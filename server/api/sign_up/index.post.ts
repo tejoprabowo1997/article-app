@@ -29,6 +29,7 @@ export default defineEventHandler(async (event) => {
     return createError({
       statusCode: 400,
       statusMessage: 'Email already taken. Please use another email',
+      data: 'Email already taken. Please use another email',
     })
 
   const isUsernameRegistered = await UserModel.isUsernameRegistered(
@@ -38,6 +39,7 @@ export default defineEventHandler(async (event) => {
     return createError({
       statusCode: 400,
       statusMessage: 'Username already taken, Please use another username',
+      data: 'Username already taken, Please use another username',
     })
 
   const createUser = await UserModel.createUser(dataCreateUser)
@@ -45,6 +47,7 @@ export default defineEventHandler(async (event) => {
     return createError({
       statusCode: 500,
       statusMessage: 'Something wrong please try again later',
+      data: 'Something wrong please try again later',
     })
 
   return createUser

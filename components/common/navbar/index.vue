@@ -4,6 +4,9 @@ const router = useRouter()
 const goHomePage = () => {
   router.push({ path: '/' })
 }
+const isLogin = useState('isLogin')
+const token = useCookie('token')
+if (token.value) isLogin.value = true
 </script>
 
 <template>
@@ -14,7 +17,8 @@ const goHomePage = () => {
           Article App
         </v-app-bar-title>
         <div class="ml-auto">
-          <v-btn to="/sign_in">Sign In</v-btn>
+          <v-btn v-if="!isLogin" to="/sign_in">Sign In</v-btn>
+          <v-btn v-else to="/sign_in">Profile</v-btn>
         </div>
       </div>
     </v-container>
