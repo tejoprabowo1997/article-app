@@ -6,6 +6,7 @@ interface IArticleModel {
   status: 'FREE' | 'PAID'
   price: number
   author: string
+  user_id: string
 }
 
 class ArticleModel {
@@ -32,6 +33,9 @@ class ArticleModel {
         author: {
           type: String,
           required: true,
+        },
+        user_id: {
+          type: String,
         },
       },
       {

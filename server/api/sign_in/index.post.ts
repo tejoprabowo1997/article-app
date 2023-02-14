@@ -34,5 +34,15 @@ export default defineEventHandler(async (event) => {
       statusMessage: 'Your password is incorrect',
       data: 'Your password is incorrect',
     })
-  return jwt.sign(dataLogin.email, 'BNET.id2022')
+
+  const dataGet_id = { email: dataLogin.email }
+  const get_id = await UserModel.get_id(dataGet_id)
+  if (!get_id)
+    createError({
+      statusCode: 500,
+      statusMessage: 'Something wrong with our system. Please try again later',
+      data: 'Something wrong with our system. Please try again later',
+    })
+
+  return jwt.sign(get_id.toString(), 'BNET.id2023')
 })

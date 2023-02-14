@@ -23,6 +23,9 @@ interface IDataIsUsernameRegistered {
 interface IDataGetPasswordHash {
   email: string
 }
+interface IDataGet_id {
+  email: string
+}
 
 class UserModel {
   private readonly model: Model<IUserModel>
@@ -103,6 +106,26 @@ class UserModel {
       const user = await this.model.findOne(data)
       if (!user) return false
       return user.password
+    } catch (e) {
+      console.log(e)
+      return false
+    }
+  }
+
+  public async get_id(data: IDataGet_id) {
+    try {
+      const user = await this.model.findOne(data)
+      if (!user) return false
+      return user._id
+    } catch (e) {
+      console.log(e)
+      return false
+    }
+  }
+
+  public async getProfile(id: string) {
+    try {
+      return await this.model.findById(id)
     } catch (e) {
       console.log(e)
       return false

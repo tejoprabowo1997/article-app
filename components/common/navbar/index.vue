@@ -18,7 +18,7 @@ if (token.value) isLogin.value = true
         </v-app-bar-title>
         <div class="ml-auto">
           <v-btn v-if="!isLogin" to="/sign_in">Sign In</v-btn>
-          <v-btn v-else to="/sign_in">Profile</v-btn>
+          <v-btn v-else to="/profile">Profile</v-btn>
         </div>
       </div>
     </v-container>
