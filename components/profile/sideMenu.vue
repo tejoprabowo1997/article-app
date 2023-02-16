@@ -14,6 +14,11 @@
           </v-btn>
         </v-col>
         <v-col cols="12">
+          <v-btn to="/add_article" variant="outlined" block>
+            Transaction
+          </v-btn>
+        </v-col>
+        <v-col cols="12">
           <v-btn to="/logout" variant="outlined" block> Sign Out </v-btn>
         </v-col>
       </v-row>

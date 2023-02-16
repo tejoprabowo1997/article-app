@@ -1,4 +1,5 @@
-import { model, Model, Schema } from 'mongoose'
+import { Model, Schema } from 'mongoose'
+import { defaultConnection } from '~/server/services/database'
 
 interface ITransactionModel {
   article_id: string
@@ -33,7 +34,10 @@ class TransactionModel {
       },
     )
 
-    this.model = model<ITransactionModel>('transaction', transactionSchema)
+    this.model = defaultConnection.model<ITransactionModel>(
+      'transaction',
+      transactionSchema,
+    )
   }
 }
 

@@ -1,5 +1,6 @@
-import { Model, model, Schema } from 'mongoose'
+import { Model, Schema } from 'mongoose'
 import { hash } from 'bcrypt'
+import { defaultConnection } from '~/server/services/database'
 
 interface IUserModel {
   name: string
@@ -7,6 +8,7 @@ interface IUserModel {
   email: string
   password: string
   balance: number
+  article_purchased: string[]
 }
 interface IDataCreateUser {
   name: string
@@ -52,7 +54,11 @@ class UserModel {
         },
         balance: {
           type: Number,
-          default: 0,
+          default: 100000,
+        },
+        article_purchased: {
+          type: [String],
+          default: [],
         },
       },
       {
@@ -69,7 +75,7 @@ class UserModel {
       next()
     })
 
-    this.model = model<IUserModel>('user', userSchema)
+    this.model = defaultConnection.model<IUserModel>('user', userSchema)
   }
 
   public async createUser(data: IDataCreateUser) {
